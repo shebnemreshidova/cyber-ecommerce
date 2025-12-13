@@ -1,15 +1,14 @@
-import { FiHeart } from "react-icons/fi";
-import { BsCart2 } from "react-icons/bs";
-import { LuUserRound } from "react-icons/lu";
+import HeaderActionItem from "./HeaderActionItem";
+import { HEADER_ACTIONS } from "./headerActions.config";
 
 const HeaderActions = () => {
   return (
-    <div>
-        <div><FiHeart/></div>
-        <div><BsCart2 /></div>
-        <div><LuUserRound /></div>
+    <div className="flex items-center gap-4">
+      {HEADER_ACTIONS.map((action) => (
+        <HeaderActionItem key={action.to} {...action} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default HeaderActions
+export default HeaderActions;

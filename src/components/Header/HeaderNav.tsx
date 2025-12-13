@@ -1,13 +1,10 @@
-import { NavLink } from "react-router-dom"
 
-
+import { NAV_LINKS } from "./nav.config"
+import NavItem from "./NavItem"
 const HeaderNav = () => {
   return (
-    <div>
-        <NavLink to='/'>Home</NavLink>
-        <NavLink to='/about'>About</NavLink>
-        <NavLink to='/contact'>Contact Us</NavLink>
-        <NavLink to='/blog'>Blog</NavLink>
+    <div className="flex gap-10 items-center">
+      {NAV_LINKS.map((nav) => <NavItem key={nav.to} {...nav} />)}
     </div>
   )
 }

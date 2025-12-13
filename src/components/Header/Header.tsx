@@ -4,11 +4,11 @@ import HeaderNav from './HeaderNav'
 import HeaderSearch from './HeaderSearch'
 const Header = () => {
   return (
-    <div>
-      <img src={logo}/>
-      <HeaderSearch/>
-      <HeaderNav/>
-      <HeaderActions/>
+    <div className='flex justify-between items-center py-4'>
+      <img src={logo} />
+      <HeaderSearch />
+      <HeaderNav />
+      <HeaderActions />
     </div>
   )
 }

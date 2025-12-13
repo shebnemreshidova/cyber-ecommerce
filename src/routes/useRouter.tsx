@@ -1,4 +1,6 @@
-import MainLayout from "../layout/mainLAyout"
+
+import MainLayout from "../layout/MainLayout"
+import Cart from "../pages/Cart"
 import { Home } from "../pages/Home"
 
 export const useRouter = () =>
@@ -6,10 +8,14 @@ export const useRouter = () =>
         {
             path: "/",
             element: <MainLayout />,
-            children:[
+            children: [
                 {
-                    index:true,
-                    element:<Home/>
+                    index: true,
+                    element: <Home />
+                },
+                 {
+                    path: "/cart",
+                    element: <Cart />
                 }
             ]
 
