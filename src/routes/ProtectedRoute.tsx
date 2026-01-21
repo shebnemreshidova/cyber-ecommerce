@@ -1,16 +1,12 @@
-import type { ReactNode } from "react"
-import { useAuthGuard } from "../hooks/useAuthGuard"
+import type { ReactNode } from "react";
+import { useAuthContext } from "../context/authContext";
 import { Navigate } from "react-router-dom";
-
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-    const guard = useAuthGuard();
-
-    if (guard.status === "loading") return null;
-
-    if (guard.status === "redirect") {
-        return <Navigate to={guard.to} />;
+    const isLoggedIn = useAuthContext();
+    
+    if (!isLoggedIn) {
+        return <Navigate to="/auth/login" />;
     }
-
     return <>{children}</>;
 };
 
