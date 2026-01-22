@@ -8,7 +8,6 @@ interface RegisterRequest {
 }
 
 interface RegisterResponse {
- 
     id: string;
     firstName: string;
     lastName: string;
@@ -25,6 +24,7 @@ interface LoginResponse {
     firstName: string;
     lastName: string;
     token: string;
+    id: string;
   };
 }
 

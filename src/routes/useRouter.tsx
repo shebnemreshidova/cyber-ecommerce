@@ -12,6 +12,7 @@ import AdminLayout from "../layout/AdminLayout"
 import Products from "../pages/admin/Products"
 import ProtectedRoute from "./ProtectedRoute"
 import PublicRoute from "./PublicRoute"
+import Wishlist from "../pages/Wishlist"
 
 export const useRouter = () =>
     [
@@ -26,7 +27,11 @@ export const useRouter = () =>
                 {
                     path: "cart",
                     element: <ProtectedRoute><Cart /></ProtectedRoute>
-                }
+                },
+                {
+                    path: "wishlist",
+                    element: <Wishlist />
+                },
             ]
 
         },
