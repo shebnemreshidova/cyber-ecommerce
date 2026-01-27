@@ -5,8 +5,6 @@ import { useState } from "react";
 import ProductTable from "../../components/products/ProductTable";
 const Products = () => {    
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
     return (
         <div className="p-4">
            <div className="flex justify-between items-center">

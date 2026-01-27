@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
-interface Product {
+export interface Product {
     _id:string;
     name: string;
     price: number;

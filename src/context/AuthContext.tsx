@@ -1,11 +1,40 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
-const AuthContext = createContext<{ isLoggedIn: boolean, userId: string | null }>({ isLoggedIn: false, userId: "" });
+import { useNavigate } from "react-router-dom";
+type AuthContextType = {
+    isLoggedIn: boolean;
+    userId: string | null;
+    login: (id: string) => void;
+    logout: () => void;
+};
 
+const AuthContext = createContext<AuthContextType>({
+    isLoggedIn: false,
+    userId: null,
+    login: () => { },
+    logout: () => { },
+});
 const AuthContextProvider = ({ children }: { children?: React.ReactNode }) => {
     const isLoggedIn = Cookies.get("token") ? true : false;
-    const userId = Cookies.get("userId") || "";
-    return <AuthContext.Provider value={{ isLoggedIn, userId }}>
+
+    const [userId, setUserId] = useState<string | null>(
+        Cookies.get("userId") || null
+    );
+
+    const navigate = useNavigate();
+
+    const login = (id: string) => {
+        setUserId(id);
+    };
+    const logout = () => {
+        setUserId(null);
+        Cookies.remove("token");
+        Cookies.remove("userId");
+        navigate("/");
+
+
+    };
+    return <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
         {children}
     </AuthContext.Provider>
 }

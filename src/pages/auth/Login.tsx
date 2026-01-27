@@ -5,7 +5,8 @@ import { z } from "zod";
 import { useLoginUserMutation } from "../../redux/services/authApi";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useWishlistLocalSyncMutation } from "../../redux/services/productApi";
+import { useAuthContext } from "../../context/AuthContext";
+import { useSyncWishlistMutation } from "../../redux/services/productApi";
 const loginSchema = z.object({
   email: z.email("Please enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -20,8 +21,8 @@ const Login = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const navigate = useNavigate();
-  const [wishlistLocalSync] = useWishlistLocalSyncMutation();
-
+  const { login } = useAuthContext();
+  const [syncWishlist] = useSyncWishlistMutation();
   const onSubmit = async (data: LoginFormData) => {
     try {
       const res = await loginUser({
@@ -38,11 +39,17 @@ const Login = () => {
         expires: 1,
         secure: true,
       });
-
-      const items = localStorage.getItem("LocalWishlist") || "[]";
-      if (items.length > 0) {
-        await wishlistLocalSync({ userId: res.user.id, localItems: JSON.parse(items) });
+      login(res.user.id);
+      const localWishlistStr = localStorage.getItem("LocalWishlist");
+      if (localWishlistStr) {
+        const localWishlist = JSON.parse(localWishlistStr); 
+        if (Array.isArray(localWishlist) && localWishlist.length > 0) {
+          const productIds = localWishlist.map(item => ({ productId: item._id }));
+          await syncWishlist(productIds);
+          localStorage.setItem("LocalWishlist", '[]');
+        }
       }
+
       navigate("/");
 
     } catch (err: string | any) {
