@@ -1,41 +1,70 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useAuthContext } from "../context/AuthContext";
-import { useAddWishlistMutation, useGetWishlistQuery, useRemoveFromWishlistMutation } from "../redux/services/productApi";
+import { useGetWishlistQuery, useToggleWishlistMutation,  } from "../redux/services/productApi";
 import type { Product } from "../redux/services/adminApi";
 import { addToLocalWishlist, removeFromLocalWishlist, selectLocalWishlist } from "../redux/features/productSlice";
 
+
+import { useState, useEffect } from "react";
 
 export const useWishlist = () => {
     const dispatch = useDispatch();
     const { userId } = useAuthContext();
 
-
     const localWishlist = useSelector(selectLocalWishlist);
-    const { data: backendWishlist = [] } = useGetWishlistQuery(undefined, { skip: !userId });
+    const { data: backendWishlist = [] } = useGetWishlistQuery(undefined, {
+        skip: !userId,
+    });
 
-    const wishlist = userId ? backendWishlist : localWishlist;
+   
+    const [optimisticWishlist, setOptimisticWishlist] = useState<Product[]>([]);
 
+   
+    useEffect(() => {
+        setOptimisticWishlist(userId ? backendWishlist : localWishlist);
+    }, [backendWishlist, localWishlist, userId]);
 
-    const [addToWishlistBE] = useAddWishlistMutation();
-    const [removeFromWishlistBE] = useRemoveFromWishlistMutation();
+    const wishlist = optimisticWishlist;
 
+    const [toggleWishlist] = useToggleWishlistMutation();
 
     const isInWishlist = (productId: string) =>
         wishlist.some((item) => item._id === productId);
 
-    const handleToggleWishlist = (item: Product) => {
-        if (isInWishlist(item._id)) {
-            userId
-                ? removeFromWishlistBE({ productId: item._id })
-                : dispatch(removeFromLocalWishlist(item._id));
-        } else {
-            userId
-                ? addToWishlistBE({ productId: item._id })
-                : dispatch(addToLocalWishlist(item));
+    const handleToggleWishlist = async (product: Product) => {
+        const productId = product._id;
+        const currentlyInWishlist = isInWishlist(productId);
+
+     
+        setOptimisticWishlist((prev) =>
+            currentlyInWishlist
+                ? prev.filter((item) => item._id !== productId)
+                : [...prev, product]
+        );
+
+      
+        if (!userId) {
+            currentlyInWishlist
+                ? dispatch(removeFromLocalWishlist(productId))
+                : dispatch(addToLocalWishlist(product));
+            return;
+        }
+
+        try {
+            await toggleWishlist({ productId }).unwrap();
+          
+        } catch (error) {
+
+            setOptimisticWishlist((prev) =>
+                currentlyInWishlist
+                    ? [...prev, product]
+                    : prev.filter((item) => item._id !== productId)
+            );
         }
     };
 
     return {
-        isInWishlist, handleToggleWishlist
-    }
-}
+        isInWishlist,
+        handleToggleWishlist,
+    };
+};

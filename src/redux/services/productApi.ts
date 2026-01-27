@@ -23,23 +23,13 @@ export const productApi = createApi({
             query: () => `/products/wishlist/all`,
             providesTags: ['Wishlist'],
         }),
-
-        addWishlist: builder.mutation<void, { productId: string }>({
-            query: (body) => ({
-                url: "/products/wishlist",
+        toggleWishlist: builder.mutation<void, { productId: string }>({
+            query: ({ productId }) => ({
+                url: "/products/wishlist/toggle",
                 method: "POST",
-                body,
+                body: { productId },
             }),
-            invalidatesTags: ['Wishlist'],
-        }),
-
-        removeFromWishlist: builder.mutation<void, { productId: string }>({
-            query: (body) => ({
-                url: "/products/wishlist",
-                method: "DELETE",
-                body,
-            }),
-            invalidatesTags: ['Wishlist'],
+              invalidatesTags: ['Wishlist'],
         }),
 
         syncWishlist: builder.mutation<Product[], { productId: string }[]>({
@@ -48,10 +38,10 @@ export const productApi = createApi({
                 method: "POST",
                 body: productIds,
             }),
-              invalidatesTags: ['Wishlist'],
+            invalidatesTags: ['Wishlist'],
         }),
     }),
 });
 
 
-export const { useGetProductsQuery, useGetWishlistQuery, useAddWishlistMutation, useSyncWishlistMutation, useRemoveFromWishlistMutation } = productApi;
+export const { useGetProductsQuery, useGetWishlistQuery,useToggleWishlistMutation, useSyncWishlistMutation } = productApi;
