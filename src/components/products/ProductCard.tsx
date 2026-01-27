@@ -1,7 +1,8 @@
 import { Heart } from "lucide-react";
-import { BsHeartFill } from "react-icons/bs";
+import {BsCartDash, BsHeartFill } from "react-icons/bs";
 import Button from "../common/Button";
 import { useWishlist } from "../../hooks/useWishlist";
+import { useAddCartMutation } from "../../redux/services/cartApi";
 
 interface ProductCardProps {
   _id: string;
@@ -15,7 +16,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = (product) => {
   const { _id, image, name, price } = product;
   const { isInWishlist, handleToggleWishlist } = useWishlist();
-
+  const [addCart] = useAddCartMutation();
 
   return (
     <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center w-64 relative">
@@ -38,8 +39,10 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
 
       <h3 className="text-center font-medium text-gray-800 mb-2">{name}</h3>
       <p className="text-lg font-semibold mb-4">${price}</p>
-
-      <Button variant="primary">Buy Now</Button>
+      {/* add card edende addded cart olsun amma yene de add ede biler */}
+      <Button variant="primary" onClick={() => addCart({ productId: _id })}>
+        <BsCartDash />
+        Add to card</Button>
     </div>
   );
 };
