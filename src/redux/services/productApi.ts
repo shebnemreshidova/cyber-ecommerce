@@ -6,6 +6,7 @@ export const productApi = createApi({
     reducerPath: "productApi",
     baseQuery: fetchBaseQuery({
         baseUrl: import.meta.env.VITE_API_URL,
+          credentials: 'include',
         prepareHeaders: (headers) => {
             const token = Cookies.get("token");
             if (token) {
