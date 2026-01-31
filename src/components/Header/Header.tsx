@@ -5,7 +5,7 @@ import HeaderActions from './HeaderActions'
 import HeaderNav from './HeaderNav'
 import { LogOut, User } from 'lucide-react'
 import { useState } from 'react'
-import { useAuthContext } from '../../context/AuthContext'
+import { useAuthContext } from '../../context/authContext'
 const Header = () => {
   const { userId ,logout} = useAuthContext();
   const navigate = useNavigate();

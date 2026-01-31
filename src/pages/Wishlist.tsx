@@ -2,13 +2,13 @@ import { useSelector } from "react-redux";
 import { selectLocalWishlist } from "../redux/features/productSlice";
 import ProductCard from "../components/products/ProductCard";
 import { useGetWishlistQuery } from "../redux/services/productApi";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/authContext";
 
 
 const Wishlist = () => {
 
   const { userId } = useAuthContext();
-  const { data: wishlistfromBackend, isLoading, error } = useGetWishlistQuery( undefined,{skip:!userId});
+  const { data: wishlistfromBackend } = useGetWishlistQuery( undefined,{skip:!userId});
 
   const localWishlist = useSelector(selectLocalWishlist);
   const wishlist = userId ? wishlistfromBackend : localWishlist

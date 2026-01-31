@@ -3,7 +3,7 @@ import { BsCartDash, BsHeartFill } from "react-icons/bs";
 import Button from "../common/Button";
 import { useWishlist } from "../../hooks/useWishlist";
 import { useAddCartMutation } from "../../redux/services/cartApi";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/authContext";
 import { useGetWishlistQuery, useToggleWishlistMutation,  } from "../redux/services/productApi";
 import type { Product } from "../redux/services/adminApi";
 import { addToLocalWishlist, removeFromLocalWishlist, selectLocalWishlist } from "../redux/features/productSlice";
