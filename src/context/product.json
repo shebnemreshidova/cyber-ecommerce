@@ -1,0 +1,15 @@
+[
+  {
+    "_id": "1",
+    "name": "Apple iPhone 14 Pro 512GB Gold",
+    "price": 1437,
+    "description": "Apple iPhone 14 Pro 512GB Gold",
+    "order": 1,
+    "image": "https://res.cloudinary.com/dorcarsnl/image/upload/v1769886152/products/vfukw6nnbra5epdys0ey.png",
+    "brand": "Apple",
+    "batteryCapacity": "3200mAh",
+    "screenType": "OLED",
+    "screenDiagonal": "6.1 inch",
+    "protectionClass": "IP68",
+    "builtInMemory": "512GB"
+  }]
