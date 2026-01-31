@@ -2,15 +2,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from 'js-cookie'
 import type { Product } from "./adminApi";
 
-export interface CartProduct  {
+export interface CartProduct {
     quantity: number
-    product:Product
+    product: Product
 }
 
 export const cartApi = createApi({
     reducerPath: "cartApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000",
+        baseUrl: import.meta.env.VITE_API_URL,
         prepareHeaders: (headers) => {
             const token = Cookies.get("token");
             if (token) {
@@ -43,7 +43,7 @@ export const cartApi = createApi({
             }),
             invalidatesTags: ['Cart'],
         }),
-            decreaseCount: builder.mutation<void, { productId: string }>({
+        decreaseCount: builder.mutation<void, { productId: string }>({
             query: (item) => ({
                 url: "/cart/decrease",
                 method: "POST",
@@ -57,4 +57,4 @@ export const cartApi = createApi({
 });
 
 
-export const { useAddCartMutation, useGetCartItemsQuery,useRemoveCartMutation,useDecreaseCountMutation } = cartApi;
+export const { useAddCartMutation, useGetCartItemsQuery, useRemoveCartMutation, useDecreaseCountMutation } = cartApi;

@@ -8,11 +8,11 @@ interface RegisterRequest {
 }
 
 interface RegisterResponse {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-  
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+
 }
 interface LoginRequest {
   email: string;
@@ -30,7 +30,9 @@ interface LoginResponse {
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_URL,
+  }),
   endpoints: (builder) => ({
     registerUser: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (data) => ({

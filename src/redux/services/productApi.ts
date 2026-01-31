@@ -5,7 +5,7 @@ import type { Product } from "./adminApi";
 export const productApi = createApi({
     reducerPath: "productApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000",
+        baseUrl: import.meta.env.VITE_API_URL,
         prepareHeaders: (headers) => {
             const token = Cookies.get("token");
             if (token) {
@@ -29,7 +29,7 @@ export const productApi = createApi({
                 method: "POST",
                 body: { productId },
             }),
-              invalidatesTags: ['Wishlist'],
+            invalidatesTags: ['Wishlist'],
         }),
 
         syncWishlist: builder.mutation<Product[], { productId: string }[]>({
@@ -44,4 +44,4 @@ export const productApi = createApi({
 });
 
 
-export const { useGetProductsQuery, useGetWishlistQuery,useToggleWishlistMutation, useSyncWishlistMutation } = productApi;
+export const { useGetProductsQuery, useGetWishlistQuery, useToggleWishlistMutation, useSyncWishlistMutation } = productApi;
