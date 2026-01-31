@@ -1,9 +1,9 @@
 import { useRoutes } from 'react-router-dom'
 import './App.css'
-import { useRouter } from './routes/useRouter';
+import { routerConfig } from './routes/routerConfig';
 
 function App() {
-  const routes=useRouter();
+  const routes=routerConfig;
   const router=useRoutes(routes);
   return router
 }

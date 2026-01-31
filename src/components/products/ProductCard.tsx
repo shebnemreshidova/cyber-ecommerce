@@ -1,8 +1,10 @@
 import { Heart } from "lucide-react";
-import {BsCartDash, BsHeartFill } from "react-icons/bs";
+import { BsCartDash, BsHeartFill } from "react-icons/bs";
 import Button from "../common/Button";
 import { useWishlist } from "../../hooks/useWishlist";
 import { useAddCartMutation } from "../../redux/services/cartApi";
+import { useAuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
   _id: string;
@@ -17,8 +19,14 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
   const { _id, image, name, price } = product;
   const { isInWishlist, handleToggleWishlist } = useWishlist();
   const [addCart] = useAddCartMutation();
+  const { userId } = useAuthContext();
+  const navigate = useNavigate();
 
+  const handleAddCard = (_id: string) => {
+    userId ? () => addCart({ productId: _id }) : navigate("/auth/login")
+  }
   return (
+
     <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center w-64 relative">
       <button
         onClick={() => handleToggleWishlist(product)}
@@ -40,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
       <h3 className="text-center font-medium text-gray-800 mb-2">{name}</h3>
       <p className="text-lg font-semibold mb-4">${price}</p>
       {/* add card edende addded cart olsun amma yene de add ede biler */}
-      <Button variant="primary" onClick={() => addCart({ productId: _id })}>
+      <Button variant="primary" onClick={() => handleAddCard(_id)}>
         <BsCartDash />
         Add to card</Button>
     </div>
