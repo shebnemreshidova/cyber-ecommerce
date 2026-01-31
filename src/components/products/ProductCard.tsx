@@ -40,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
       </button>
 
       <img
-        src={`http://localhost:5000/uploads/${image}`}
+        src={image}
         alt={name}
         className="w-40 h-40 object-contain mb-4"
       />
