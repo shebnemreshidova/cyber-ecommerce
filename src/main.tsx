@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { store } from './redux/store.ts'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContextProvider } from './context/authContext.tsx'
+import { AuthContextProvider } from './context/AuthContext.tsx'
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <BrowserRouter>

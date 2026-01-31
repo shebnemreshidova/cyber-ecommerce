@@ -5,8 +5,8 @@ import { z } from "zod";
 import { useLoginUserMutation } from "../../redux/services/authApi";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useAuthContext } from "../../context/authContext";
 import { useSyncWishlistMutation } from "../../redux/services/productApi";
+import { useAuthContext } from "../../context/AuthContext";
 const loginSchema = z.object({
   email: z.email("Please enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
