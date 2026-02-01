@@ -1,12 +1,25 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from 'js-cookie'
-import type { Product } from "./adminApi";
 
+export interface Product{
+  
+    _id: string;
+    name: string;
+    price: number;
+    description: string;
+    order: number;
+    image?: string;
+}
+
+export interface Products {
+    products:Product[]
+  
+}
 export const productApi = createApi({
     reducerPath: "productApi",
     baseQuery: fetchBaseQuery({
         baseUrl: import.meta.env.VITE_API_URL,
-          credentials: 'include',
+        credentials: 'include',
         prepareHeaders: (headers) => {
             const token = Cookies.get("token");
             if (token) {
@@ -17,8 +30,21 @@ export const productApi = createApi({
     }),
     tagTypes: ["Wishlist"],
     endpoints: (builder) => ({
-        getProducts: builder.query<Product[], void>({
-            query: () => "/products/all",
+        getProducts: builder.query<{
+            products: Product[];
+            total: number;
+            page: number;
+            limit: number;
+        }, { category?: string, page?: number, limit?: number }>({
+            query: ({ category, page, limit }) => ({
+                url: "/products/all",
+                method: "GET",
+                params: {
+                    category,
+                    page,
+                    limit
+                }
+            })
         }),
         getWishlist: builder.query<Product[], void>({
             query: () => `/products/wishlist/all`,
