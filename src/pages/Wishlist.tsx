@@ -7,7 +7,6 @@ import { useAuthContext } from "../context/AuthContext";
 const Wishlist = () => {
   const { userId } = useAuthContext();
   const { data: wishlistfromBackend } = useGetWishlistQuery( undefined,{skip:!userId});
-
   const localWishlist = useSelector(selectLocalWishlist);
   const wishlist = userId ? wishlistfromBackend : localWishlist
   return (

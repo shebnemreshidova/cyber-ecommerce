@@ -19,7 +19,7 @@ const productSchema = z.object({
 
 type CreateProductProps = {
     isModalOpen: boolean,
-    setIsModalOpen: (isModalOpen: boolean) => void
+    setIsModalOpen: (isModalOpen: string) => void
 
 }
 
@@ -50,7 +50,7 @@ const CreateProduct = ({ isModalOpen, setIsModalOpen }: CreateProductProps) => {
 
             await addProduct(formData).unwrap();
             reset();
-            !isLoading && setIsModalOpen(false);
+            !isLoading && setIsModalOpen('');
         } catch (error) {
             console.error(error);
         }
@@ -59,7 +59,7 @@ const CreateProduct = ({ isModalOpen, setIsModalOpen }: CreateProductProps) => {
         <Modal
             title="Add New Product"
             isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={() => setIsModalOpen('')}
         >
             <form
                 className="flex flex-col gap-4"

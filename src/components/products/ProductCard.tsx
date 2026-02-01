@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
   const navigate = useNavigate();
 
   const handleAddCard = (_id: string) => {
-    userId ? () => addCart({ productId: _id }) : navigate("/auth/login")
+    userId ?  addCart({ productId: _id }) : navigate("/auth/login")
   }
   return (
 
@@ -45,9 +45,9 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
         className="w-40 h-40 object-contain mb-4"
       />
 
+
       <h3 className="text-center font-medium text-gray-800 mb-2">{name}</h3>
       <p className="text-lg font-semibold mb-4">${price}</p>
-      {/* add card edende addded cart olsun amma yene de add ede biler */}
       <Button variant="primary" onClick={() => handleAddCard(_id)}>
         <BsCartDash />
         Add to card</Button>

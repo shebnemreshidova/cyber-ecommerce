@@ -9,6 +9,11 @@ export interface Product {
     order: number;
     image?: string;
 }
+export interface Category {
+    _id: string;
+    name: string;
+    image?: string;
+}
 
 export const adminApi = createApi({
     reducerPath: 'adminApi',
@@ -23,7 +28,7 @@ export const adminApi = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Products'],
+    tagTypes: ['Products','Category'],
     endpoints: (builder) => ({
         getProducts: builder.query<Product[], void>({
             query: () => '/admin/products',
@@ -37,8 +42,16 @@ export const adminApi = createApi({
             }),
             invalidatesTags: ['Products']
         }),
+        addCategory: builder.mutation<Category, FormData>({
+            query: (formData) => ({
+                url: '/admin/add-category',
+                method: 'POST',
+                body: formData,
+            }),
+            invalidatesTags: ['Category']
+        }),
 
     }),
 });
 
-export const { useGetProductsQuery, useAddProductMutation } = adminApi;
+export const { useGetProductsQuery, useAddProductMutation,useAddCategoryMutation } = adminApi;

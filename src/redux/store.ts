@@ -4,16 +4,19 @@ import { adminApi } from "./services/adminApi";
 import { productApi } from "./services/productApi";
 import productReducer from "./features/productSlice";
 import { cartApi } from "./services/cartApi";
+import { categoryApi } from "./services/categoryApi";
 export const store = configureStore({
     reducer: {
         [authApi.reducerPath]: authApi.reducer,
         [adminApi.reducerPath]: adminApi.reducer,
         [productApi.reducerPath]: productApi.reducer,
         [cartApi.reducerPath]: cartApi.reducer,
+        [categoryApi.reducerPath]: categoryApi.reducer,
         product: productReducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(authApi.middleware).concat(adminApi.middleware).concat(productApi.middleware).concat(cartApi.middleware),
+        getDefaultMiddleware().concat(authApi.middleware).concat(adminApi.middleware).concat(productApi.middleware).
+    concat(cartApi.middleware).concat(categoryApi.middleware),
 
 })
 
