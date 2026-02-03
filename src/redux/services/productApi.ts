@@ -10,9 +10,15 @@ export interface Product{
     order: number;
     image?: string;
 }
-
+export interface Pagination{
+    page:number,
+    limit:number,
+    totalPages:number,
+    total:number
+}
 export interface Products {
-    products:Product[]
+    products:Product[],
+    pagination:Pagination
   
 }
 export const productApi = createApi({
@@ -30,12 +36,7 @@ export const productApi = createApi({
     }),
     tagTypes: ["Wishlist"],
     endpoints: (builder) => ({
-        getProducts: builder.query<{
-            products: Product[];
-            total: number;
-            page: number;
-            limit: number;
-        }, { category?: string, page?: number, limit?: number }>({
+        getProducts: builder.query<Products, { category?: string, page?: number, limit?: number }>({
             query: ({ category, page, limit }) => ({
                 url: "/products/all",
                 method: "GET",

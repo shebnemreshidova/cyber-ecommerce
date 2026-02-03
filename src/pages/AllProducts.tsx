@@ -1,29 +1,65 @@
-
-import { useSearchParams } from "react-router-dom"
-import { useGetProductsQuery } from "../redux/services/productApi";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSearchParams } from "react-router-dom";
+import { useGetProductsQuery, type Product } from "../redux/services/productApi";
 import ProductCard from "../components/products/ProductCard";
+import { useEffect, useState } from "react";
 
 const AllProducts = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
+  const [page, setPage] = useState(1);
+  const [allProduct, setAllProduct] = useState<Product[]>([]);
+  const [hasMore, setHasMore] = useState(true);  
 
-  const { data: allProducts, isLoading } = useGetProductsQuery({
+  const { data: responseProduct } = useGetProductsQuery({
     category: category || undefined,
-    page: 1,
+    page,
     limit: 12,
   });
 
-  if (isLoading) return <div>Loading...</div>
+  
+  useEffect(() => {
+    setPage(1);
+    setAllProduct([]);
+    setHasMore(true);  
+  }, [category]);
+
+  useEffect(() => {
+    if (responseProduct?.products && responseProduct.products.length > 0) {
+      setAllProduct((prev) => [...prev, ...responseProduct.products]);
+      
+      const isLastPage = page >= responseProduct?.pagination?.totalPages;
+      setHasMore(!isLastPage);  
+    }
+  }, [responseProduct, page]);
+
+  const handleLoadMore = () => {
+    setPage((prev) => prev + 1);
+  };
+console.log("page:", page);
+console.log("products:", responseProduct?.products?.map(p => p.order));
 
   return (
-    <div>
-      {
-        allProducts?.products?.map(product => (
-          <ProductCard key={product._id} {...product} />
-        ))
-      }
+   <div className='flex  gap-10 px-10'>
+    <div className='w-2/4'>
+      Filter bar
     </div>
-  )
-}
+     <InfiniteScroll
+      dataLength={allProduct.length}          
+      next={handleLoadMore}                 
+      hasMore={hasMore}                       
+      loader={<div className="loading">Loading...</div>}
+      endMessage={<div className="end-message">No more products</div>}
+                     
+    >
+      <div className="flex flex-wrap gap-5">
+        {allProduct.map((product) => (
+          <ProductCard key={product._id} {...product} />
+        ))}
+      </div>
+    </InfiniteScroll>
+   </div>
+  );
+};
 
-export default AllProducts
+export default AllProducts;
