@@ -1,5 +1,6 @@
 import { Delete } from "lucide-react";
 import { useAddCartMutation, useDecreaseCountMutation, useGetCartItemsQuery, useRemoveCartMutation } from "../redux/services/cartApi"
+import Breadcrumb from "../components/common/Breadcrumb";
 
 const Cart = () => {
   const { data: cartItems } = useGetCartItemsQuery();
@@ -8,8 +9,13 @@ const Cart = () => {
   const [decreaseCount] = useDecreaseCountMutation();
 
   return (
-    <div className="p-10">
-      <div className="text-4xl mb-5">Shopping Cart</div>
+    <div className='px-4 sm:px-8 md:px-16 lg:px-20'>
+      <Breadcrumb
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Shopping Cart" }, 
+        ]}
+      />
       <div className="flex gap-5">
         <div>
           {Array.isArray(cartItems) && cartItems.length > 0 ? (
@@ -18,12 +24,12 @@ const Cart = () => {
                 <div className="w-[90px] h-[90px]"><img src={`http://localhost:5000/uploads/${item.product.image}`} alt={item.product.name} /></div>
                 <div>{item.product.name}</div>
                 <div>
-                  <button onClick={()=>decreaseCount({productId:item.product._id})}> -</button>
+                  <button onClick={() => decreaseCount({ productId: item.product._id })}> -</button>
                   <div>{item.quantity}</div>
-                  <button onClick={()=>addCart({productId:item.product._id})}>+</button>
+                  <button onClick={() => addCart({ productId: item.product._id })}>+</button>
                 </div>
                 <div>{item.product.price}</div>
-                <button onClick={()=>removeCart({productId:item.product._id})}><Delete /></button>
+                <button onClick={() => removeCart({ productId: item.product._id })}><Delete /></button>
               </div>
             ))
           ) :

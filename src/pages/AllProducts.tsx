@@ -3,6 +3,7 @@ import { useGetProductsQuery, type Product } from "../redux/services/productApi"
 import ProductCard from "../components/products/ProductCard";
 import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Breadcrumb from "../components/common/Breadcrumb";
 
 
 const AllProducts = () => {
@@ -38,30 +39,38 @@ const AllProducts = () => {
     setHasMore(!isLastPage);
   }, [responseProduct, page]);
 
- 
+
 
   const handleLoadMore = () => {
     setPage((prev) => prev + 1);
   };
 
-  
+
   return (
-    <div className="flex gap-10 px-10">
-      <div className="w-2/4">Filter bar</div>
-   <InfiniteScroll
-      dataLength={allProduct.length}          
-      next={handleLoadMore}                 
-      hasMore={hasMore}                       
-      loader={<div className="loading">Loading...</div>}
-      endMessage={<div className="end-message">No more products</div>}
-                     
-    >
-      <div className="flex flex-wrap gap-5">
-        {allProduct.map((product) => (
-          <ProductCard key={product._id} {...product} />
-        ))}
+    <div className=" px-4 sm:px-8 md:px-16 lg:px-20">
+      <Breadcrumb
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Wishlist" },
+        ]}
+      />
+      <div className="flex gap-10">
+        <div className="w-2/4">Filter bar</div>
+        <InfiniteScroll
+          dataLength={allProduct.length}
+          next={handleLoadMore}
+          hasMore={hasMore}
+          loader={<div className="loading">Loading...</div>}
+          endMessage={<div className="end-message">No more products</div>}
+
+        >
+          <div className="flex flex-wrap gap-5">
+            {allProduct.map((product) => (
+              <ProductCard key={product._id} {...product} />
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
-    </InfiniteScroll>
     </div>
   );
 };

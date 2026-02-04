@@ -5,7 +5,6 @@ import { useWishlist } from "../../hooks/useWishlist";
 import { useAddCartMutation } from "../../redux/services/cartApi";
 import { useAuthContext } from '../../context/AuthContext'
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 interface ProductCardProps {
   _id: string;
@@ -22,15 +21,9 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
   const [addCart] = useAddCartMutation();
   const { userId } = useAuthContext();
   const navigate = useNavigate();
-  const [isWishlisted, setIsWishlisted] = useState(isInWishlist(_id));
 
   const handleAddCard = (_id: string) => {
-    userId ? addCart({ productId: _id }) : navigate("/auth/login")
-  }
-
-  const handleWishlist = (prod: typeof product) => {
-    handleToggleWishlist(prod);
-    setIsWishlisted(!isWishlisted);
+    userId ?  addCart({ productId: _id }) : navigate("/auth/login")
   }
 
   return (
@@ -44,14 +37,14 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
           loading="lazy"
         />
         <button
-          onClick={() => handleWishlist(product)}
+        onClick={() => handleToggleWishlist(product)}
           className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-red-50 transition-colors"
         >
-          {isWishlisted ? (
-            <BsHeartFill size={20} className="text-red-500" />
-          ) : (
-            <Heart size={20} className="text-gray-400 group-hover:text-red-400" />
-          )}
+          {isInWishlist(_id) ? (
+          <BsHeartFill size={24} className="text-red-500" />
+        ) : (
+          <Heart size={24} />
+        )}
         </button>
       </div>
 
