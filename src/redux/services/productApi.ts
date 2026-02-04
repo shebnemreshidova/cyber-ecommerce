@@ -36,11 +36,12 @@ export const productApi = createApi({
     }),
     tagTypes: ["Wishlist"],
     endpoints: (builder) => ({
-        getProducts: builder.query<Products, { query?: string, category?: string, page?: number, limit?: number }>({
-            query: ({ query, category, page, limit }) => ({
+        getProducts: builder.query<Products, { filter?: string, query?: string, category?: string, page?: number, limit?: number }>({
+            query: ({filter, query, category, page, limit }) => ({
                 url: "/products/all",
                 method: "GET",
                 params: {
+                    filter,
                     query,
                     category,
                     page,
