@@ -1,9 +1,11 @@
 import CategoryList from "../components/category/CategoryList"
+import HeroSection from "../components/home/HeroSection"
 import ProductList from "../components/products/ProductList"
 
 export const Home = () => {
   return (
-    <div className="px-10">
+    <div>
+      <HeroSection/>
       <CategoryList/>
       <ProductList/>
     </div>

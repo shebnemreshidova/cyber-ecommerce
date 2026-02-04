@@ -1,50 +1,54 @@
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSearchParams } from "react-router-dom";
 import { useGetProductsQuery, type Product } from "../redux/services/productApi";
 import ProductCard from "../components/products/ProductCard";
 import { useEffect, useState } from "react";
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 const AllProducts = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
+  const search = searchParams.get("search") || "";
+
   const [page, setPage] = useState(1);
   const [allProduct, setAllProduct] = useState<Product[]>([]);
-  const [hasMore, setHasMore] = useState(true);  
-  const search = searchParams.get("search") || "";
+  const [hasMore, setHasMore] = useState(true);
+
   const { data: responseProduct } = useGetProductsQuery({
-    query:search,
+    query: search,
     category: category || undefined,
     page,
     limit: 12,
   });
 
-  
   useEffect(() => {
     setPage(1);
     setAllProduct([]);
-    setHasMore(true);  
-  }, [category,search]);
+    setHasMore(true);
+  }, [category, search]);
 
   useEffect(() => {
-    if (responseProduct?.products && responseProduct.products.length > 0) {
-      setAllProduct((prev) => [...prev, ...responseProduct.products]);
-      
-      const isLastPage = page >= responseProduct?.pagination?.totalPages;
-      setHasMore(!isLastPage);  
-    }
+    if (!responseProduct?.products) return;
+
+    setAllProduct(prev => [...prev, ...responseProduct.products]);
+
+    const isLastPage =
+      page >= responseProduct.pagination.totalPages;
+
+    setHasMore(!isLastPage);
   }, [responseProduct, page]);
+
+ 
 
   const handleLoadMore = () => {
     setPage((prev) => prev + 1);
   };
 
-
+  
   return (
-   <div className='flex  gap-10 px-10'>
-    <div className='w-2/4'>
-      Filter bar
-    </div>
-     <InfiniteScroll
+    <div className="flex gap-10 px-10">
+      <div className="w-2/4">Filter bar</div>
+   <InfiniteScroll
       dataLength={allProduct.length}          
       next={handleLoadMore}                 
       hasMore={hasMore}                       
@@ -58,7 +62,7 @@ const AllProducts = () => {
         ))}
       </div>
     </InfiniteScroll>
-   </div>
+    </div>
   );
 };
 
