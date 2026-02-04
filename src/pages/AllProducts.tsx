@@ -10,8 +10,9 @@ const AllProducts = () => {
   const [page, setPage] = useState(1);
   const [allProduct, setAllProduct] = useState<Product[]>([]);
   const [hasMore, setHasMore] = useState(true);  
-
+  const search = searchParams.get("search") || "";
   const { data: responseProduct } = useGetProductsQuery({
+    query:search,
     category: category || undefined,
     page,
     limit: 12,
@@ -22,7 +23,7 @@ const AllProducts = () => {
     setPage(1);
     setAllProduct([]);
     setHasMore(true);  
-  }, [category]);
+  }, [category,search]);
 
   useEffect(() => {
     if (responseProduct?.products && responseProduct.products.length > 0) {
@@ -36,8 +37,7 @@ const AllProducts = () => {
   const handleLoadMore = () => {
     setPage((prev) => prev + 1);
   };
-console.log("page:", page);
-console.log("products:", responseProduct?.products?.map(p => p.order));
+
 
   return (
    <div className='flex  gap-10 px-10'>

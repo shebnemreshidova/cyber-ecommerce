@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/Logo.svg'
 import Button from '../common/Button'
 import HeaderActions from './HeaderActions'
-import HeaderNav from './HeaderNav'
 import { LogOut, User } from 'lucide-react'
 import { useState } from 'react'
 import { useAuthContext } from '../../context/AuthContext'
+import Search from './Search'
 
 
 const Header = () => {
@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <div className='flex justify-between items-center py-4 gap-15'>
       <img src={logo} />
-      <HeaderNav />
+    <Search/>
       <div className='flex gap-4'>
         <HeaderActions />
         {!userId && <div className='flex gap-1'>

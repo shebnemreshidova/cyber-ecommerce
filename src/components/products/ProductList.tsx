@@ -6,7 +6,7 @@ const ProductList = () => {
     return (
         <div className='flex flex-wrap gap-3'>
             {
-                data?.products.map(product => (
+                data?.products?.map(product => (
                     <ProductCard key={product._id} {...product} />
                 ))
             }

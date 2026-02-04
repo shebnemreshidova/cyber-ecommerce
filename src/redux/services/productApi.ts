@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from 'js-cookie'
 
-export interface Product{
-  
+export interface Product {
+
     _id: string;
     name: string;
     price: number;
@@ -10,16 +10,16 @@ export interface Product{
     order: number;
     image?: string;
 }
-export interface Pagination{
-    page:number,
-    limit:number,
-    totalPages:number,
-    total:number
+export interface Pagination {
+    page: number,
+    limit: number,
+    totalPages: number,
+    total: number
 }
 export interface Products {
-    products:Product[],
-    pagination:Pagination
-  
+    products: Product[],
+    pagination: Pagination
+
 }
 export const productApi = createApi({
     reducerPath: "productApi",
@@ -36,11 +36,12 @@ export const productApi = createApi({
     }),
     tagTypes: ["Wishlist"],
     endpoints: (builder) => ({
-        getProducts: builder.query<Products, { category?: string, page?: number, limit?: number }>({
-            query: ({ category, page, limit }) => ({
+        getProducts: builder.query<Products, { query?: string, category?: string, page?: number, limit?: number }>({
+            query: ({ query, category, page, limit }) => ({
                 url: "/products/all",
                 method: "GET",
                 params: {
+                    query,
                     category,
                     page,
                     limit
