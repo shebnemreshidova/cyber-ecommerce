@@ -15,7 +15,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         return (
             <button 
-            
                 ref={ref}
                 {...props}
                 className={`${baseStyles} ${variantStyles[variant]} ${className ?? ""}`}
