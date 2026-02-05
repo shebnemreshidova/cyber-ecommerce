@@ -28,7 +28,7 @@ export const cartApi = createApi({
 
         }),
 
-        addCart: builder.mutation<void, { productId: string }>({
+        addToCart: builder.mutation<void, { productId: string }>({
             query: (item) => ({
                 url: "/cart/add",
                 method: "POST",
@@ -58,4 +58,4 @@ export const cartApi = createApi({
 });
 
 
-export const { useAddCartMutation, useGetCartItemsQuery, useRemoveCartMutation, useDecreaseCountMutation } = cartApi;
+export const { useAddToCartMutation, useGetCartItemsQuery, useRemoveCartMutation, useDecreaseCountMutation } = cartApi;

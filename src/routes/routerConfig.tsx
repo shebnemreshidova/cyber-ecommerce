@@ -11,7 +11,6 @@ import { Home } from '../pages/Home'
 import { PageLoader } from '../components/common/PageLoader'
 
 
-
 const Login = lazy(() => import("../pages/auth/Login"))
 const Register = lazy(() => import("../pages/auth/Register"))
 const ForgotPassword = lazy(() => import("../pages/auth/ForgotPassword"))
@@ -20,6 +19,7 @@ const Cart = lazy(() => import("../pages/Cart"))
 const Wishlist = lazy(() => import("../pages/Wishlist"))
 const Products = lazy(() => import("../pages/admin/Products"))
 const AllProducts = lazy(() => import("../pages/AllProducts"))
+const ProductDetails = lazy(() => import("../pages/ProductDetails"))
 
 export const routerConfig = [
     {
@@ -45,6 +45,14 @@ export const routerConfig = [
                 element: (
                     <Suspense fallback={<PageLoader />}>
                             <AllProducts />
+                    </Suspense>
+                )
+            },
+            {
+                path: "product-details/:id",
+                element: (
+                    <Suspense fallback={<PageLoader />}>
+                            <ProductDetails />
                     </Suspense>
                 )
             },

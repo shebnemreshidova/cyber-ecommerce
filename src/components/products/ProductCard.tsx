@@ -2,9 +2,9 @@ import { Heart } from "lucide-react";
 import { BsCartDash, BsHeartFill } from "react-icons/bs";
 import Button from "../common/Button";
 import { useWishlist } from "../../hooks/useWishlist";
-import { useAddCartMutation } from "../../redux/services/cartApi";
 import { useAuthContext } from '../../context/AuthContext'
 import { useNavigate } from "react-router-dom";
+import { useAddToCartMutation } from "../../redux/services/cartApi";
 
 interface ProductCardProps {
   _id: string;
@@ -18,13 +18,17 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = (product) => {
   const { _id, image, name, price } = product;
   const { isInWishlist, handleToggleWishlist } = useWishlist();
-  const [addCart] = useAddCartMutation();
+  const [addToCart] = useAddToCartMutation();
   const { userId } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleAddCard = (_id: string) => {
-    userId ?  addCart({ productId: _id }) : navigate("/auth/login")
+const handleAddCart = (productId: string) => {
+  if (!userId) {
+    navigate("/auth/login");
+    return;
   }
+  addToCart({ productId });
+};
 
   return (
     <div className="rounded-xl bg-gray-50 overflow-hidden h-full flex flex-col w-full sm:w-56 md:w-64 group">
@@ -49,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
       </div>
 
       <div className="p-4 sm:p-5 md:p-6 flex flex-col gap-3 flex-grow">
-        <h3 className="text-center text-sm sm:text-base md:text-lg font-semibold text-gray-800 line-clamp-2 min-h-8 group-hover:text-blue-600 transition-colors">
+        <h3 onClick={()=>navigate(`/product-details/${_id}`)} className="text-center text-sm sm:text-base md:text-lg font-semibold text-gray-800 line-clamp-2 min-h-8 group-hover:text-blue-600 transition-colors">
           {name}
         </h3>
         <p className="text-center text-base sm:text-lg md:text-xl font-bold text-gray-900">
@@ -57,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = (product) => {
         </p>  
         <Button
           variant="primary"
-          onClick={() => handleAddCard(_id)}
+          onClick={() => handleAddCart(_id)}
           className="w-full mt-auto"
         >
           <BsCartDash size={18} />

@@ -1,44 +1,22 @@
-import { Delete } from "lucide-react";
-import { useAddCartMutation, useDecreaseCountMutation, useGetCartItemsQuery, useRemoveCartMutation } from "../redux/services/cartApi"
+import Order from "../components/cart/Order";
+import ShoppingCart from "../components/cart/ShoppingCart";
 import Breadcrumb from "../components/common/Breadcrumb";
-
 const Cart = () => {
-  const { data: cartItems } = useGetCartItemsQuery();
-  const [addCart] = useAddCartMutation();
-  const [removeCart] = useRemoveCartMutation();
-  const [decreaseCount] = useDecreaseCountMutation();
-
   return (
-    <div className='px-4 sm:px-8 md:px-16 lg:px-20'>
+    <div className="px-3 sm:px-4 md:px-8 lg:px-16 xl:px-20 py-4 sm:py-8">
       <Breadcrumb
         items={[
           { label: "Home", path: "/" },
-          { label: "Shopping Cart" }, 
+          { label: "Shopping Cart" },
         ]}
       />
-      <div className="flex gap-5">
-        <div>
-          {Array.isArray(cartItems) && cartItems.length > 0 ? (
-            cartItems.map((item) => (
-              <div className="flex gap-4  py-3 border-b border-gray-400">
-                <div className="w-[90px] h-[90px]"><img src={`http://localhost:5000/uploads/${item.product.image}`} alt={item.product.name} /></div>
-                <div>{item.product.name}</div>
-                <div>
-                  <button onClick={() => decreaseCount({ productId: item.product._id })}> -</button>
-                  <div>{item.quantity}</div>
-                  <button onClick={() => addCart({ productId: item.product._id })}>+</button>
-                </div>
-                <div>{item.product.price}</div>
-                <button onClick={() => removeCart({ productId: item.product._id })}><Delete /></button>
-              </div>
-            ))
-          ) :
-            <div>Cart is empty</div>
-          }
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+
+        <ShoppingCart />
+        <Order />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;

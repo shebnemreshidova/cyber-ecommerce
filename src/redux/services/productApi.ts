@@ -37,7 +37,7 @@ export const productApi = createApi({
     tagTypes: ["Wishlist"],
     endpoints: (builder) => ({
         getProducts: builder.query<Products, { filter?: string, query?: string, category?: string, page?: number, limit?: number }>({
-            query: ({filter, query, category, page, limit }) => ({
+            query: ({ filter, query, category, page, limit }) => ({
                 url: "/products/all",
                 method: "GET",
                 params: {
@@ -70,8 +70,11 @@ export const productApi = createApi({
             }),
             invalidatesTags: ['Wishlist'],
         }),
+        getDetails: builder.query<Product, { id: string }>({
+            query: ({ id }) => `/products/details/${id}`,
+        }),
     }),
 });
 
 
-export const { useGetProductsQuery, useGetWishlistQuery, useToggleWishlistMutation, useSyncWishlistMutation } = productApi;
+export const { useGetProductsQuery, useGetWishlistQuery, useToggleWishlistMutation, useSyncWishlistMutation, useGetDetailsQuery } = productApi;

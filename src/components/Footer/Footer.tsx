@@ -8,7 +8,7 @@ const Footer = () => {
         <div>
           <h2 className="text-lg font-bold mb-4">MyShop</h2>
           <p className="text-gray-400 text-sm">
-            The best online shop for shoes, clothes, and accessories.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum amet quas, porro nemo rerum ex incidunt ut.
           </p>
         </div>
 
