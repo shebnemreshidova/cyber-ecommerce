@@ -2,7 +2,7 @@ import { Trash2 } from "lucide-react";
 import { useAddToCartMutation, useDecreaseCountMutation, useGetCartItemsQuery, useRemoveCartMutation } from "../../redux/services/cartApi";
 
 const ShoppingCart = () => {
-  const { data: cartItems } = useGetCartItemsQuery();
+  const { data: cartItems} = useGetCartItemsQuery();
   const [addToCart] = useAddToCartMutation();
   const [removeCart] = useRemoveCartMutation();
   const [decreaseCount] = useDecreaseCountMutation();

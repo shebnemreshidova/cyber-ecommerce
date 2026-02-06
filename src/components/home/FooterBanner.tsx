@@ -1,4 +1,4 @@
-import footerBanner from '../../../public/footer-banner.png'
+import footerBanner from '../../assets/footer-banner.png';
 
 const FooterBanner = () => {
     return (

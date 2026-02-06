@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { easeOut, motion } from 'framer-motion';
-import heroImg from '../../../public/banner-img.png'
+import heroImg from '../../assets/banner-img.png'
 export const HeroSection = () => {
   const [isHovering, setIsHovering] = useState(false);
 

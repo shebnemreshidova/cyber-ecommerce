@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import Input from "../common/Input";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useDebounce } from "../../hooks/useDEbounce";
+import { useDebounce } from "../../hooks/useDebounce";
 
 type FormValues = {
   search: string;

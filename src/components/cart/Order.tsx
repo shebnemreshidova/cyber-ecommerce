@@ -1,9 +1,31 @@
 import { useGetCartItemsQuery } from "../../redux/services/cartApi";
+import Button from "../common/Button";
+import { useCheckoutMutation } from "../../redux/services/paymentApi";
 const Order = () => {
     const { data: cartItems } = useGetCartItemsQuery();
+
+    const subTotal = cartItems?.reduce((sum, item) => {
+        return sum += item.quantity * item.product?.price
+    }, 0)
+
+    const [checkout] = useCheckoutMutation();
+
+    const handleCheckout = async () => {
+        if (!cartItems || cartItems.length === 0) return;
+
+        try {
+
+            const response = await checkout({ cartItems }).unwrap();
+            window.location.href = response.url;
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     return (
         <>
-            {Array.isArray(cartItems) && cartItems.length > 0 && (
+            {cartItems && cartItems.length > 0 && (
                 <div className="lg:col-span-1 order-1 lg:order-2">
                     <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 lg:sticky lg:top-4">
                         <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -13,7 +35,7 @@ const Order = () => {
                             <div className="flex justify-between text-xs sm:text-sm text-gray-700">
                                 <span>Subtotal</span>
                                 <span className="font-semibold text-gray-900">
-                                    120
+                                    {subTotal}
                                 </span>
                             </div>
                             <div className="flex justify-between text-xs sm:text-sm text-gray-700">
@@ -34,14 +56,13 @@ const Order = () => {
                             <div className="flex justify-between text-base sm:text-lg">
                                 <span className="font-bold text-gray-900">Total</span>
                                 <span className="font-bold text-gray-900">
-                                    300
+                                    {subTotal}
                                 </span>
                             </div>
                         </div>
-
-                        <button className="w-full bg-black text-white py-2 sm:py-3 text-sm sm:text-base rounded-lg font-bold hover:bg-gray-900 transition-colors">
+                        <Button variant="secondary" onClick={handleCheckout} className="w-full">
                             Checkout
-                        </button>
+                        </Button>
                     </div>
                 </div>
             )}
